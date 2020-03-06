@@ -7,7 +7,7 @@ const GroceryList = props => {
         <div>
             {props.groceries.map(item => {
                 return (
-                    <GroceryItem groceryItem={item} />
+                    <GroceryItem key={item.id} groceryItem={item} />
                 )
             })
             }

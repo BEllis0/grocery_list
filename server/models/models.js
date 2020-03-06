@@ -1,5 +1,5 @@
 //db connection
-const db = require('../db.js');
+const db = require('../db.js').db;
 
 //exports obj
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
         //get req
         get: function() {
             return new Promise((resolve, reject) => {
-                db.db.query('SELECT * FROM groceries', (err, res, fields) => {
+                db.query('SELECT * FROM groceries', (err, res, fields) => {
                     if (err) {
                         reject(err);
                     } else {
@@ -20,9 +20,9 @@ module.exports = {
         },
         //post req
         post: function(item) {
-            console.log(item.name, item.quantity)
+            console.log(typeof db)
             return new Promise((resolve, reject) => {
-                db.db.query(`INSERT INTO groceries (name, quantity) VALUES ("${item.name}", ${item.quantity})`, (err, res, fields) => {
+                db.query(`INSERT INTO groceries (name, quantity) VALUES ("${item.name}", ${item.quantity})`, (err, res, fields) => {
                     if (err) {
                         reject(err);
                     } else {

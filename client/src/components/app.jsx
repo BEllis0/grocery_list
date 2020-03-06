@@ -7,19 +7,7 @@ export default class App extends React.Component {
         super(props);
 
         this.state = {
-            groceries: [
-                {
-                id: 1,
-                name: "Frozen Blueberries",
-                quantity: 2
-            },
-            {
-                id: 2,
-                name: "Frozen Mango",
-                quantity: 2
-            }
-            
-            ]
+            groceries: []
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,7 +22,7 @@ export default class App extends React.Component {
             .then(groceries => {
                 this.setState({
                     groceries: groceries
-                });
+                }, () => console.log(this.state.groceries));
             })
             .catch(err => {
                 console.log(err)
@@ -43,12 +31,23 @@ export default class App extends React.Component {
 
 
     handleSubmit(itemObj) {
-        fetch('http://localhost:3000/api/groceries/add', {
+        const response = fetch('/api/groceries/add', {
             method: 'POST',
-            body: itemObj
+            body: JSON.stringify(itemObj),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(() => {
+            return fetch('/api/groceries')
         })
         .then(res => {
-            console.log(res);
+            res.json();
+        })
+        .then(data => {
+            this.setState({
+                groceries: data
+            });
         })
         .catch(err => console.log(err));
     }
@@ -63,7 +62,7 @@ export default class App extends React.Component {
                 </header>
 
                 <Form handleSubmit={this.handleSubmit} />
-                <GroceryList  groceries={this.state.groceries} />
+                <GroceryList groceries={this.state.groceries} />
                 
             </div>
         );

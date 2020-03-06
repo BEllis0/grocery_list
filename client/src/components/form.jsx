@@ -3,7 +3,7 @@ import React from 'react';
 export default class Form extends React.Component {
 
     constructor(props) {
-        super();
+        super(props);
 
         this.state = {
             groceryName: '',
@@ -23,7 +23,7 @@ export default class Form extends React.Component {
     onChangeQuantity(e) {
         this.setState({
             quantity: e.target.value
-        }, () => {console.log(this.state.quantity)});
+        });
     };
 
     render() {
@@ -32,7 +32,7 @@ export default class Form extends React.Component {
         <div>
             <form onSubmit={(e) => {
                 e.preventDefault();
-                props.handleSubmit({name: this.state.groceryName, quantity: this.state.quantity})
+                this.props.handleSubmit({name: this.state.groceryName, quantity: this.state.quantity})
                 }}>
                 <label>Name</label>
                 <input onChange={this.onChangeName} id="groceryName" type="text" />
